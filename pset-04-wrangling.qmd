@@ -21,7 +21,7 @@ source("census-key.R")
 ```
 
 2. The [US Census API User Guide](https://www.census.gov/content/dam/Census/data/developers/api-user-guide/api-user-guide.pdf)
-provides details on how to leverage this valuable resource. We are interested in vintage population estimates for years 2021 and 2022. From the documentation we find that the _endpoint_ is:
+provides details on how to leverage this valuable resource. We are interested in vintage population estimates for years 2020 and 2021. From the documentation we find that the _endpoint_ is:
 
 
 ```{r}
@@ -289,6 +289,8 @@ deaths <- request(deaths_url) |>
   resp_body_string() |>
   fromJSON() |>
   as_tibble() |>
+  # filter the each the correct total death
+  filter (sex == "All Sexes", age_group== "All Ages", group== "By Total")|>
   transmute(
     state,
     date   = as.Date(end_date),       
