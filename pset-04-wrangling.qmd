@@ -301,8 +301,8 @@ deaths <- request(deaths_url) |>
 
 ```{r}
 deaths |>
-  # exclude United States
-  filter(!is.na(state), state != "United States")|>
+  # exclude United States and New York City which are not states 
+  filter(!is.na(state), state != "United States", state != "New York City")|>
   group_by(state) |>
   summarise(tot_deaths = sum(deaths, na.rm = TRUE), 
             .groups = "drop") |>
