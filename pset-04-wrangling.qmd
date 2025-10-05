@@ -261,7 +261,8 @@ cases |>
     year = year(date),
     month = month(date, label = TRUE, abbr = FALSE)
   ) |>
-  filter(!is.na(date), year %in% c(2020, 2021)) |>
+  # NYC is filtered out since it is not a state!!
+  filter(!is.na(date), year %in% c(2020, 2021), state != "NYC") |>
   group_by(year, month) |>
   summarize(total_cases = sum(cases, na.rm = TRUE), 
             .groups = "drop") |> 

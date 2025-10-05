@@ -147,7 +147,7 @@ window.Quarto = {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="2" type="1">
-<li>The <a href="https://www.census.gov/content/dam/Census/data/developers/api-user-guide/api-user-guide.pdf">US Census API User Guide</a> provides details on how to leverage this valuable resource. We are interested in vintage population estimates for years 2021 and 2022. From the documentation we find that the <em>endpoint</em> is:</li>
+<li>The <a href="https://www.census.gov/content/dam/Census/data/developers/api-user-guide/api-user-guide.pdf">US Census API User Guide</a> provides details on how to leverage this valuable resource. We are interested in vintage population estimates for years 2020 and 2021. From the documentation we find that the <em>endpoint</em> is:</li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2021/pep/population"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -412,15 +412,16 @@ window.Quarto = {
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">year</span>(date),</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(date), year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_cases =</span> <span class="fu">sum</span>(cases, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"Total Cases"</span>),</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Month COVID-19 Cases (2020-2021)"</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># NYC is filtered out since it is not a state!!</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(date), year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>), state <span class="sc">!=</span> <span class="st">"NYC"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">|&gt;</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_cases =</span> <span class="fu">sum</span>(cases, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month) <span class="sc">|&gt;</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"Total Cases"</span>),</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By Month COVID-19 Cases (2020-2021)"</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>By Month COVID-19 Cases (2020-2021)</caption>
@@ -445,112 +446,112 @@ window.Quarto = {
 <tr class="odd">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">March</td>
-<td style="text-align: right;">68245</td>
+<td style="text-align: right;">50389</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">April</td>
-<td style="text-align: right;">974032</td>
+<td style="text-align: right;">822806</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">May</td>
-<td style="text-align: right;">650943</td>
+<td style="text-align: right;">616740</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">June</td>
-<td style="text-align: right;">654904</td>
+<td style="text-align: right;">642623</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">July</td>
-<td style="text-align: right;">1989512</td>
+<td style="text-align: right;">1977463</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">August</td>
-<td style="text-align: right;">1461283</td>
+<td style="text-align: right;">1453818</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">September</td>
-<td style="text-align: right;">1415438</td>
+<td style="text-align: right;">1403589</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">October</td>
-<td style="text-align: right;">1628598</td>
+<td style="text-align: right;">1610968</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">November</td>
-<td style="text-align: right;">3932646</td>
+<td style="text-align: right;">3889644</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2020</td>
 <td style="text-align: left;">December</td>
-<td style="text-align: right;">7027128</td>
+<td style="text-align: right;">6908671</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">January</td>
-<td style="text-align: right;">5808063</td>
+<td style="text-align: right;">5649728</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">February</td>
-<td style="text-align: right;">2667511</td>
+<td style="text-align: right;">2544386</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">March</td>
-<td style="text-align: right;">2068441</td>
+<td style="text-align: right;">1929127</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">April</td>
-<td style="text-align: right;">1773591</td>
+<td style="text-align: right;">1694537</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">May</td>
-<td style="text-align: right;">972915</td>
+<td style="text-align: right;">949466</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">June</td>
-<td style="text-align: right;">493635</td>
+<td style="text-align: right;">485513</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">July</td>
-<td style="text-align: right;">1137440</td>
+<td style="text-align: right;">1121733</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">August</td>
-<td style="text-align: right;">3572562</td>
+<td style="text-align: right;">3521996</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">September</td>
-<td style="text-align: right;">5027537</td>
+<td style="text-align: right;">4967038</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">October</td>
-<td style="text-align: right;">2356302</td>
+<td style="text-align: right;">2321333</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">November</td>
-<td style="text-align: right;">2322814</td>
+<td style="text-align: right;">2290856</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2021</td>
 <td style="text-align: left;">December</td>
-<td style="text-align: right;">5615644</td>
+<td style="text-align: right;">5297535</td>
 </tr>
 </tbody>
 </table>
